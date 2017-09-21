@@ -1,4 +1,4 @@
-# firestore-codelab-android
+# friendlyeats-android
 
 ```
 // TODO(samstern): content
