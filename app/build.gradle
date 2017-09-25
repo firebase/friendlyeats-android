@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.google.firebase.example.fireeats"
         minSdkVersion 16
@@ -22,11 +22,11 @@ android {
 
 dependencies {
     // Firestore
-    compile "com.google.firebase:firebase-firestore:11.0.8"
+    compile "com.google.firebase:firebase-firestore:11.3.0"
 
     // Other Firebase/Play services deps
-    compile "com.google.firebase:firebase-auth:11.0.8"
-    compile "com.google.android.gms:play-services-auth:11.0.8"
+    compile "com.google.firebase:firebase-auth:11.3.0"
+    compile "com.google.android.gms:play-services-auth:11.3.0"
 
     // FirebaseUI (for authentication)
     compile ('com.firebaseui:firebase-ui-auth:2.3.0') {

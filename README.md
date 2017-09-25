@@ -1,4 +1,4 @@
-# friendlyeats-android
+# Friendly Eats
 
 ```
 // TODO(samstern): content

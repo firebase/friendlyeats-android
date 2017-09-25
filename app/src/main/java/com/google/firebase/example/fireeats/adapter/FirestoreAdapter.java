@@ -29,8 +29,7 @@ import java.util.ArrayList;
  *
  * Note that this class forgoes some efficiency to gain simplicity. For example, the result of
  * {@link DocumentSnapshot#toObject(Class)} is not cached so the same object may be deserialized
- * many times as the user scrolls.  Also the method {@link #indexOf(DocumentSnapshot)} iterates
- * through the whole list on modified or removed events, which could be slow for very large lists.
+ * many times as the user scrolls.
  */
 public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH> {
