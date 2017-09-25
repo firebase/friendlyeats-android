@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FireEats</string>
+    <string name="app_name">Friendly Eats</string>
 
     <string name="value_any_category">All food</string>
     <string name="value_any_city">Anywhere</string>
