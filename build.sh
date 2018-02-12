@@ -15,10 +15,6 @@ fi
 echo "Using mock google-services.json"
 cp mock-google-services.json app/google-services.json
 
-# Install preview deps
-${ANDROID_HOME}/tools/bin/sdkmanager --channel=3 \
-  "tools" "platform-tools" "build-tools;27.0.1" "platforms;android-27"
-
 # Build
 if [ $TRAVIS_PULL_REQUEST = false ] ; then
   echo "Building full project"
