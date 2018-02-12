@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "606665771234",
+    "firebase_url": "https://mock-firestore-project.firebaseio.com",
+    "project_id": "mock-firestore-project",
+    "storage_bucket": "mock-firestore-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606665771229:android:c1f0f09aa42abc12",
+        "android_client_info": {
+          "package_name": "com.google.firebase.example.fireeats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123455771229-sc9bpuefbjceq7i1qabk7gssstefrdlv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNzhU2a9gMc_JHurHbywOrRI9Vj4VQZZZ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
