@@ -29,7 +29,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:11.8.0'
 
     // FirebaseUI (for authentication)
-    compile 'com.firebaseui:firebase-ui-auth:3.2.1'
+    compile 'com.firebaseui:firebase-ui-auth:3.2.2'
 
     // ButterKnife (for sample code brevity)
     compile 'com.jakewharton:butterknife:8.8.1'
