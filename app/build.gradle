@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId 'com.google.firebase.example.fireeats'
         minSdkVersion 16
@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName '1.0'
 
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary true
     }
     buildTypes {
@@ -22,35 +23,36 @@ android {
 
 dependencies {
     // Firestore
-    compile 'com.google.firebase:firebase-firestore:12.0.1'
+    implementation 'com.google.firebase:firebase-firestore:17.0.1'
 
     // Other Firebase/Play services deps
-    compile 'com.google.firebase:firebase-auth:12.0.1'
-    compile 'com.google.android.gms:play-services-auth:12.0.1'
+    implementation 'com.google.firebase:firebase-auth:16.0.2'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
 
     // FirebaseUI (for authentication)
-    compile 'com.firebaseui:firebase-ui-auth:3.3.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.0.1'
 
     // ButterKnife (for sample code brevity)
-    compile 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     // Support Libs
-    compile 'com.android.support:appcompat-v7:27.1.0'
-    compile 'com.android.support:animated-vector-drawable:27.1.0'
-    compile 'com.android.support:cardview-v7:27.1.0'
-    compile 'com.android.support:customtabs:27.1.0'
-    compile 'com.android.support:design:27.1.0'
-    compile 'com.android.support:recyclerview-v7:27.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:animated-vector-drawable:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:customtabs:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
 
     // Android architecture components
-    compile 'android.arch.lifecycle:runtime:1.1.1'
-    compile 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'android.arch.lifecycle:runtime:1.1.1'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
     annotationProcessor 'android.arch.lifecycle:compiler:1.1.1'
 
     // Third-party libraries
-    compile 'me.zhanghai.android.materialratingbar:library:1.2.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'me.zhanghai.android.materialratingbar:library:1.2.0'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

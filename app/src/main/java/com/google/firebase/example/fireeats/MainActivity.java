@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements
         // Sign in with FirebaseUI
         Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
                 .setAvailableProviders(Collections.singletonList(
-                        new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build()))
+                        new AuthUI.IdpConfig.EmailBuilder().build()))
                 .setIsSmartLockEnabled(false)
                 .build();
 
