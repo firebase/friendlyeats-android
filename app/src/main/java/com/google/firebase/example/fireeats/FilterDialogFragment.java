@@ -17,24 +17,22 @@
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 import com.google.firebase.example.fireeats.model.Restaurant;
 import com.google.firebase.firestore.Query;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Dialog Fragment containing filter form.
  */
-public class FilterDialogFragment extends DialogFragment {
+public class FilterDialogFragment extends DialogFragment implements View.OnClickListener {
 
     public static final String TAG = "FilterDialog";
 
@@ -46,27 +44,27 @@ public class FilterDialogFragment extends DialogFragment {
 
     private View mRootView;
 
-    @BindView(R.id.spinner_category)
-    Spinner mCategorySpinner;
-
-    @BindView(R.id.spinner_city)
-    Spinner mCitySpinner;
-
-    @BindView(R.id.spinner_sort)
-    Spinner mSortSpinner;
-
-    @BindView(R.id.spinner_price)
-    Spinner mPriceSpinner;
+    private Spinner mCategorySpinner;
+    private Spinner mCitySpinner;
+    private Spinner mSortSpinner;
+    private Spinner mPriceSpinner;
 
     private FilterListener mFilterListener;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
+    public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.dialog_filters, container, false);
-        ButterKnife.bind(this, mRootView);
+
+        mCategorySpinner = mRootView.findViewById(R.id.spinner_category);
+        mCitySpinner = mRootView.findViewById(R.id.spinner_city);
+        mSortSpinner = mRootView.findViewById(R.id.spinner_sort);
+        mPriceSpinner = mRootView.findViewById(R.id.spinner_price);
+
+        mRootView.findViewById(R.id.button_search).setOnClickListener(this);
+        mRootView.findViewById(R.id.button_cancel).setOnClickListener(this);
 
         return mRootView;
     }
@@ -88,7 +86,18 @@ public class FilterDialogFragment extends DialogFragment {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
-    @OnClick(R.id.button_search)
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_search:
+                onSearchClicked();
+                break;
+            case R.id.button_cancel:
+                onCancelClicked();
+                break;
+        }
+    }
+
     public void onSearchClicked() {
         if (mFilterListener != null) {
             mFilterListener.onFilter(getFilters());
@@ -97,7 +106,6 @@ public class FilterDialogFragment extends DialogFragment {
         dismiss();
     }
 
-    @OnClick(R.id.button_cancel)
     public void onCancelClicked() {
         dismiss();
     }

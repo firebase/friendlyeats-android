@@ -15,18 +15,18 @@
  */
  package com.google.firebase.example.fireeats.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.example.fireeats.R;
 import com.google.firebase.example.fireeats.model.Rating;
 import com.google.firebase.firestore.Query;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 /**
@@ -38,31 +38,29 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
         super(query);
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_rating, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(getSnapshot(position).toObject(Rating.class));
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.rating_item_name)
         TextView nameView;
-
-        @BindView(R.id.rating_item_rating)
         MaterialRatingBar ratingBar;
-
-        @BindView(R.id.rating_item_text)
         TextView textView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            nameView = itemView.findViewById(R.id.rating_item_name);
+            ratingBar = itemView.findViewById(R.id.rating_item_rating);
+            textView = itemView.findViewById(R.id.rating_item_text);
         }
 
         public void bind(Rating rating) {

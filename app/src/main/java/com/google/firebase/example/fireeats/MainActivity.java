@@ -15,14 +15,8 @@
  */
  package com.google.firebase.example.fireeats;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -32,7 +26,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.example.fireeats.adapter.RestaurantAdapter;
 import com.google.firebase.example.fireeats.viewmodel.MainActivityViewModel;
@@ -43,11 +44,8 @@ import com.google.firebase.firestore.Query;
 
 import java.util.Collections;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class MainActivity extends AppCompatActivity implements
+        View.OnClickListener,
         FilterDialogFragment.FilterListener,
         RestaurantAdapter.OnRestaurantSelectedListener {
 
@@ -57,20 +55,11 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final int LIMIT = 50;
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-
-    @BindView(R.id.text_current_search)
-    TextView mCurrentSearchView;
-
-    @BindView(R.id.text_current_sort_by)
-    TextView mCurrentSortByView;
-
-    @BindView(R.id.recycler_restaurants)
-    RecyclerView mRestaurantsRecycler;
-
-    @BindView(R.id.view_empty)
-    ViewGroup mEmptyView;;
+    private Toolbar mToolbar;
+    private TextView mCurrentSearchView;
+    private TextView mCurrentSortByView;
+    private RecyclerView mRestaurantsRecycler;
+    private ViewGroup mEmptyView;
 
     private FirebaseFirestore mFirestore;
     private Query mQuery;
@@ -84,8 +73,17 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+
+        mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+
+        mCurrentSearchView = findViewById(R.id.text_current_search);
+        mCurrentSortByView = findViewById(R.id.text_current_sort_by);
+        mRestaurantsRecycler = findViewById(R.id.recycler_restaurants);
+        mEmptyView = findViewById(R.id.view_empty);
+
+        findViewById(R.id.filter_bar).setOnClickListener(this);
+        findViewById(R.id.button_clear_filter).setOnClickListener(this);
 
         // View model
         mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
@@ -213,13 +211,22 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    @OnClick(R.id.filter_bar)
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.filter_bar:
+                onFilterClicked();
+                break;
+            case R.id.button_clear_filter:
+                onClearFilterClicked();
+        }
+    }
+
     public void onFilterClicked() {
         // Show the dialog containing filter options
         mFilterDialog.show(getSupportFragmentManager(), FilterDialogFragment.TAG);
     }
 
-    @OnClick(R.id.button_clear_filter)
     public void onClearFilterClicked() {
         mFilterDialog.resetFilters();
 
