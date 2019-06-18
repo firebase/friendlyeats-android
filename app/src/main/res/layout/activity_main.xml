@@ -7,7 +7,7 @@
     android:background="#E0E0E0"
     tools:context="com.google.firebase.example.fireeats.MainActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/filter_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,12 +93,12 @@
 
             </RelativeLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
     </FrameLayout>
 
     <!-- Main Restaurants recycler -->
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_restaurants"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
