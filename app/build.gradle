@@ -26,7 +26,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:20.1.0'
 
     // Other Firebase/Play services deps
-    implementation 'com.google.firebase:firebase-auth:18.0.0'
+    implementation 'com.google.firebase:firebase-auth:18.1.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     // FirebaseUI (for authentication)
