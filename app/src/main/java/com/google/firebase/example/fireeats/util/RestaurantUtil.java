@@ -71,7 +71,7 @@ public class RestaurantUtil {
         Restaurant restaurant = new Restaurant();
         Random random = new Random();
 
-        // Cities (first elemnt is 'Any')
+        // Cities (first element is 'Any')
         String[] cities = context.getResources().getStringArray(R.array.cities);
         cities = Arrays.copyOfRange(cities, 1, cities.length);
 
