@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '29.0.0'
+    buildToolsVersion '29.0.2'
     defaultConfig {
         applicationId 'com.google.firebase.example.fireeats'
         minSdkVersion 16
@@ -23,28 +23,28 @@ android {
 
 dependencies {
     // Firestore
-    implementation 'com.google.firebase:firebase-firestore:21.3.1'
+    implementation 'com.google.firebase:firebase-firestore:21.4.0'
 
     // Other Firebase/Play services deps
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     // FirebaseUI (for authentication)
-    implementation 'com.firebaseui:firebase-ui-auth:4.3.2'
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
 
     // Support Libs
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     // Android architecture components
-    implementation 'androidx.lifecycle:lifecycle-runtime:2.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
 
     // Third-party libraries
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
