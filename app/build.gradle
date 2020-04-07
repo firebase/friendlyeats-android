@@ -23,14 +23,14 @@ android {
 
 dependencies {
     // Firestore
-    implementation 'com.google.firebase:firebase-firestore:21.4.0'
+    implementation 'com.google.firebase:firebase-firestore:21.4.2'
 
     // Other Firebase/Play services deps
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
-    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
+    implementation 'com.google.android.gms:play-services-auth:18.0.0'
 
     // FirebaseUI (for authentication)
-    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
 
     // Support Libs
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -48,7 +48,7 @@ dependencies {
 
     // Third-party libraries
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
