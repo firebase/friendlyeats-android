@@ -36,6 +36,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.example.fireeats.adapter.RestaurantAdapter;
+import com.google.firebase.example.fireeats.util.FirebaseUtil;
 import com.google.firebase.example.fireeats.viewmodel.MainActivityViewModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -92,15 +93,11 @@ public class MainActivity extends AppCompatActivity implements
         FirebaseFirestore.setLoggingEnabled(true);
 
         // Initialize Firestore and the main RecyclerView
-        initFirestore();
+        mFirestore = FirebaseUtil.getFirestore();
         initRecyclerView();
 
         // Filter Dialog
         mFilterDialog = new FilterDialogFragment();
-    }
-
-    private void initFirestore() {
-        // TODO(developer): Implement
     }
 
     private void initRecyclerView() {
@@ -192,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements
                 onAddItemsClicked();
                 break;
             case R.id.menu_sign_out:
-                AuthUI.getInstance().signOut(this);
+                FirebaseUtil.getAuthUI().signOut(this);
                 startSignIn();
                 break;
         }
@@ -243,12 +240,13 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private boolean shouldStartSignIn() {
-        return (!mViewModel.getIsSigningIn() && FirebaseAuth.getInstance().getCurrentUser() == null);
+        return (!mViewModel.getIsSigningIn() && FirebaseUtil.getAuth().getCurrentUser() == null);
     }
 
     private void startSignIn() {
         // Sign in with FirebaseUI
-        Intent intent = AuthUI.getInstance().createSignInIntentBuilder()
+        Intent intent = FirebaseUtil.getAuthUI()
+                .createSignInIntentBuilder()
                 .setAvailableProviders(Collections.singletonList(
                         new AuthUI.IdpConfig.EmailBuilder().build()))
                 .setIsSmartLockEnabled(false)
