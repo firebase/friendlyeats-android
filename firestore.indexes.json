@@ -1,0 +1,68 @@
+{
+  "indexes": [
+    {
+      "collectionId": "restaurants",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "city", "mode": "ASCENDING" },
+        { "fieldPath": "avgRating", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "restaurants",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "category", "mode": "ASCENDING" },
+        { "fieldPath": "avgRating", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "restaurants",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "price", "mode": "ASCENDING" },
+        { "fieldPath": "avgRating", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "restaurants",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "city", "mode": "ASCENDING" },
+        { "fieldPath": "numRatings", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "restaurants",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "category", "mode": "ASCENDING" },
+        { "fieldPath": "numRatings", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "restaurants",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "price", "mode": "ASCENDING" },
+        { "fieldPath": "numRatings", "mode": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionId": "restaurants",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "city", "mode": "ASCENDING" },
+        { "fieldPath": "price", "mode": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionId": "restaurants",
+      "fields": [
+        { "fieldPath": "category", "mode": "ASCENDING" },
+        { "fieldPath": "price", "mode": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

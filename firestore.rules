@@ -1,0 +1,12 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      //
+      // WARNING: These rules are insecure! We will replace them with
+      // more secure rules later in the codelab
+      //
+      allow read, write: if request.auth != null;
+    }
+  }
+}

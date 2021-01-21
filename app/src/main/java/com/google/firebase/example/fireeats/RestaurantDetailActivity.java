@@ -38,6 +38,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.example.fireeats.adapter.RatingAdapter;
 import com.google.firebase.example.fireeats.model.Rating;
 import com.google.firebase.example.fireeats.model.Restaurant;
+import com.google.firebase.example.fireeats.util.FirebaseUtil;
 import com.google.firebase.example.fireeats.util.RestaurantUtil;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -101,7 +102,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements
         }
 
         // Initialize Firestore
-        mFirestore = FirebaseFirestore.getInstance();
+        mFirestore = FirebaseUtil.getFirestore();
 
         // Get reference to the restaurant
         mRestaurantRef = mFirestore.collection("restaurants").document(restaurantId);

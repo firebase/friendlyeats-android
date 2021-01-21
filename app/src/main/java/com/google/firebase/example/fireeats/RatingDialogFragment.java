@@ -28,6 +28,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.example.fireeats.model.Rating;
+import com.google.firebase.example.fireeats.util.FirebaseUtil;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
@@ -96,7 +97,7 @@ public class RatingDialogFragment extends DialogFragment implements View.OnClick
 
     public void onSubmitClicked(View view) {
         Rating rating = new Rating(
-                FirebaseAuth.getInstance().getCurrentUser(),
+                FirebaseUtil.getAuth().getCurrentUser(),
                 mRatingBar.getRating(),
                 mRatingText.getText().toString());
 
