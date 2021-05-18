@@ -16,4 +16,7 @@ https://github.com/firebase/quickstart-android
 
 ## Build Status
 
-[![Build Status](https://travis-ci.org/firebase/friendlyeats-android.svg?branch=master)](https://travis-ci.org/firebase/friendlyeats-android)
+[![Actions Status][gh-actions-badge]][gh-actions]
+
+[gh-actions]: https://github.com/firebase/friendlyeats-android/actions
+[gh-actions-badge]: https://github.com/firebase/friendlyeats-android/workflows/Android%20CI/badge.svg
