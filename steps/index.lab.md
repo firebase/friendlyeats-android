@@ -255,17 +255,19 @@ abstract class FirestoreAdapter<VH : RecyclerView.ViewHolder>(private var query:
         }
 
         // Dispatch the event
-        for (change in documentSnapshots.documentChanges) {
-            // snapshot of the changed document
-            when (change.type) {
-                DocumentChange.Type.ADDED -> {
-                    // TODO: handle document added
-                }
-                DocumentChange.Type.MODIFIED -> {
-                    // TODO: handle document changed
-                }
-                DocumentChange.Type.REMOVED -> {
-                    // TODO: handle document removed
+        if (documentSnapshots != null) {
+            for (change in documentSnapshots.documentChanges) {
+                // snapshot of the changed document
+                when (change.type) {
+                    DocumentChange.Type.ADDED -> {
+                        // TODO: handle document added
+                    }
+                    DocumentChange.Type.MODIFIED -> {
+                        // TODO: handle document changed
+                    }
+                    DocumentChange.Type.REMOVED -> {
+                        // TODO: handle document removed
+                    }
                 }
             }
         }
@@ -316,17 +318,19 @@ Then call these new methods from `onEvent`:
         }
 
         // Dispatch the event
-        for (change in documentSnapshots.documentChanges) {
-            // snapshot of the changed document
-            when (change.type) {
-                DocumentChange.Type.ADDED -> {
-                    onDocumentAdded(change) // Add this line
-                }
-                DocumentChange.Type.MODIFIED -> {
-                    onDocumentModified(change) // Add this line
-                }
-                DocumentChange.Type.REMOVED -> {
-                    onDocumentRemoved(change) // Add this line
+        if (documentSnapshots != null) {
+            for (change in documentSnapshots.documentChanges) {
+                // snapshot of the changed document
+                when (change.type) {
+                    DocumentChange.Type.ADDED -> {
+                        onDocumentAdded(change) // Add this line
+                    }
+                    DocumentChange.Type.MODIFIED -> {
+                        onDocumentModified(change) // Add this line
+                    }
+                    DocumentChange.Type.REMOVED -> {
+                        onDocumentRemoved(change) // Add this line
+                    }
                 }
             }
         }
@@ -339,7 +343,7 @@ Finally implement the `startListening()` method to attach the listener:
 
 ```kotlin
     fun startListening() {
-        if (query != null && registration == null) {
+        if (registration == null) {
             registration = query.addSnapshotListener(this)
         }
     }

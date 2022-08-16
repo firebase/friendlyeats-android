@@ -38,11 +38,11 @@ class MainFragment : Fragment(),
     RestaurantAdapter.OnRestaurantSelectedListener {
 
     lateinit var firestore: FirebaseFirestore
-    lateinit var query: Query
+    private var query: Query? = null
 
     private lateinit var binding: FragmentMainBinding
     private lateinit var filterDialog: FilterDialogFragment
-    lateinit var adapter: RestaurantAdapter
+    private var adapter: RestaurantAdapter? = null
 
     private lateinit var viewModel: MainActivityViewModel
     private val signInLauncher = registerForActivityResult(
@@ -72,29 +72,31 @@ class MainFragment : Fragment(),
         firestore = Firebase.firestore
 
         // RecyclerView
-        adapter = object : RestaurantAdapter(query, this@MainFragment) {
-            override fun onDataChanged() {
-                // Show/hide content if the query returns empty.
-                if (itemCount == 0) {
-                    binding.recyclerRestaurants.visibility = View.GONE
-                    binding.viewEmpty.visibility = View.VISIBLE
-                } else {
-                    binding.recyclerRestaurants.visibility = View.VISIBLE
-                    binding.viewEmpty.visibility = View.GONE
+        query?.let {
+            adapter = object : RestaurantAdapter(it, this@MainFragment) {
+                override fun onDataChanged() {
+                    // Show/hide content if the query returns empty.
+                    if (itemCount == 0) {
+                        binding.recyclerRestaurants.visibility = View.GONE
+                        binding.viewEmpty.visibility = View.VISIBLE
+                    } else {
+                        binding.recyclerRestaurants.visibility = View.VISIBLE
+                        binding.viewEmpty.visibility = View.GONE
+                    }
+                }
+
+                override fun onError(e: FirebaseFirestoreException) {
+                    // Show a snackbar on errors
+                    Snackbar.make(
+                        binding.root,
+                        "Error: check logs for info.", Snackbar.LENGTH_LONG
+                    ).show()
                 }
             }
-
-            override fun onError(e: FirebaseFirestoreException) {
-                // Show a snackbar on errors
-                Snackbar.make(
-                    binding.root,
-                    "Error: check logs for info.", Snackbar.LENGTH_LONG
-                ).show()
-            }
+            binding.recyclerRestaurants.adapter = adapter
         }
 
         binding.recyclerRestaurants.layoutManager = LinearLayoutManager(context)
-        binding.recyclerRestaurants.adapter = adapter
 
         // Filter Dialog
         filterDialog = FilterDialogFragment()
@@ -116,12 +118,12 @@ class MainFragment : Fragment(),
         onFilter(viewModel.filters)
 
         // Start listening for Firestore updates
-        adapter.startListening()
+        adapter?.startListening()
     }
 
     override fun onStop() {
         super.onStop()
-        adapter.stopListening()
+        adapter?.stopListening()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
