@@ -31,7 +31,7 @@ In this codelab you will build a restaurant recommendation app on Android backed
 Before starting this codelab make sure you have:
 
 * Android Studio **4.0** or higher
-* An Android emulator
+* An Android emulator with API **19** or higher
 * Node.js version **10** or higher
 * Java version **8** or higher
 
@@ -60,31 +60,32 @@ $ git clone https://github.com/firebase/friendlyeats-android
 
 If you don't have git on your machine, you can also download the code directly from GitHub.
 
-**Import** the project into Android Studio.  You will probably see some compilation errors or maybe a warning about a missing `google-services.json` file.  We'll correct this in the next section.
-
 ### Add Firebase configuration
 
 1. In the  [Firebase console](https://console.firebase.google.com), select **Project Overview** in the left nav. Click the **Android** button to select the platform.  When prompted for a package name use `com.google.firebase.example.fireeats`
 
 <img src="img/73d151ed16016421.png" alt="73d151ed16016421.png"  width="460.50" />
 
-2. Click **Register App** and follow the instructions to download the `google-services.json` file, and move it into the `app/` folder of the sample code. Then click **Next**.
+2. Click **Register App** and follow the instructions to download the `google-services.json` file, and move it into the `app/` folder of the code you just downloaded. Then click **Next**.
+
+### Import the project
+
+Open Android Studio. Click **File** > **New** > **Import Project** and select the **friendlyeats-android** folder.
 
 ## Set up the Firebase Emulators
 Duration: 05:00
 
-In this codelab you'll use the [Firebase Emulator Suite](https://firebase.google.com/docs/emulator-suite) to locally emulate Cloud Firestore and other Firebase services. This provides a safe, fast, and free local development environment to build your app.
+In this codelab you'll use the [Firebase Emulator Suite](https://firebase.google.com/docs/emulator-suite) to locally emulate Cloud Firestore and other Firebase services. This provides a safe, fast, and no-cost local development environment to build your app.
 
 ### Install the Firebase CLI
 
-First you will need to install the [Firebase CLI](https://firebase.google.com/docs/cli). 
-The easiest way to do this is to use `npm`:
+First you will need to install the [Firebase CLI](https://firebase.google.com/docs/cli). If you are using macOS or Linux, you can run the following cURL command:
 
 ```console
-npm install -g firebase-tools
+curl -sL https://firebase.tools | bash
 ```
 
-If you don't have `npm` or you experience an error, read the [installation instructions](https://firebase.google.com/docs/cli) to get a standalone binary for your platform.
+If you are using Windows, read the [installation instructions](https://firebase.google.com/docs/cli#install-cli-windows) to get a standalone binary or to install via `npm`.
 
 Once you've installed the CLI, running `firebase --version` should report a version of `9.0.0` or higher:
 
@@ -198,7 +199,7 @@ In this section we will write some data to Firestore so that we can populate the
 
 The main model object in our app is a restaurant (see `model/Restaurant.java`).  Firestore data is split into documents, collections, and subcollections.  We will store each restaurant as a document in a top-level collection called `"restaurants"`.  To learn more about the Firestore data model, read about documents and collections in  [the documentation](https://firebase.google.com/docs/firestore/data-model).
 
-For demonstration purposes, we will add functionality in the app to create ten random restaurants when we click the "Add Random Items" button in the overflow menu.  Open the file `MainActivity.java` and fill in the `onAddItemsClicked()` method:
+For demonstration purposes, we will add functionality in the app to create ten random restaurants when we click the "Add Random Items" button in the overflow menu.  Open the file `MainActivity.java` and replace the content in the `onAddItemsClicked()` method with:
 
 ```java
     private void onAddItemsClicked() {
@@ -218,10 +219,10 @@ For demonstration purposes, we will add functionality in the app to create ten r
 There are a few important things to note about the code above:
 
 * We started by getting a reference to the `"restaurants"` collection. Collections are created implicitly when documents are added, so there was no need to create the collection before writing data.
-* Documents can be created using POJOs, which we use to create each Restaurant doc.
+* Documents can be created using POJOs (Plain Old Java Object), which we use to create each Restaurant doc.
 * The `add()` method adds a document to a collection with an auto-generated ID, so we did not need to specify a unique ID for each Restaurant.
 
-Now run the app again and click the "Add Random Items" button in the overflow menu to invoke the code you just wrote:
+Now run the app again and click the "Add Random Items" button in the overflow menu (at the top right corner) to invoke the code you just wrote:
 
 <img src="img/95691e9b71ba55e3.png" alt="95691e9b71ba55e3.png"  width="285.08" />
 
@@ -238,7 +239,7 @@ Congratulations, you just wrote data to Firestore! In the next step we'll learn 
 Duration: 10:00
 
 
-In this step we will learn how to retrieve data from Firestore and display it in our app.  The first step to reading data from Firestore is to create a `Query`.  Modify the `onCreate()` method:
+In this step we will learn how to retrieve data from Firestore and display it in our app. The first step to reading data from Firestore is to create a `Query`. Open the file `MainActivity.java` and add the following code to the beginning of the `onCreate()` method:
 
 ```java
         mFirestore = FirebaseUtil.getFirestore();
@@ -296,7 +297,7 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
 }
 ```
 
-On initial load the listener will receive one `ADDED` event for each new document.  As the result set of the query changes over time the listener will receive more events containing the changes.  Now let's finish implementing the listener.  First add three new methods: `onDocumentAdded`, `onDocumentModified`, and on `onDocumentRemoved`:
+On initial load the listener will receive one `ADDED` event for each new document.  As the result set of the query changes over time the listener will receive more events containing the changes.  Now let's finish implementing the listener.  First add three new methods: `onDocumentAdded`, `onDocumentModified`, and `onDocumentRemoved`:
 
 ```java
     protected void onDocumentAdded(DocumentChange change) {
@@ -390,7 +391,7 @@ Let's edit the `onFilter()` method of `MainActivity.java`.  This method accepts 
 ```java
     @Override
     public void onFilter(Filters filters) {
-        // Construct query basic query
+        // Construct basic query
         Query query = mFirestore.collection("restaurants");
 
         // Category (equality filter)
@@ -458,7 +459,7 @@ You should now see a filtered list of restaurants containing only low-price opti
 <img src="img/a670188398c3c59.png" alt="a670188398c3c59.png"  width="263.21" />
 
 
-If you've made it this far, you have now built a fully functioning restaurant recommendation viewing app on Firestore!  You can now sort and filter restaurants in real time.  In the next few sections we posting reviews and security to the app.
+If you've made it this far, you have now built a fully functioning restaurant recommendation viewing app on Firestore!  You can now sort and filter restaurants in real time.  In the next few sections we'll add reviews to the restaurants and add security rules to the app.
 
 
 ## Organize data in subcollections
@@ -548,7 +549,7 @@ Congrats!  You now have a social, local, mobile restaurant review app built on C
 ## Secure your data
 Duration: 05:00
 
-So far we have not considered the security of this application. How do we know that users can only read and write the correct own data? Firestore datbases are secured by a configuration file called [Security Rules](https://firebase.google.com/docs/firestore/security/get-started).
+So far we have not considered the security of this application. How do we know that users can only read and write the correct own data? Firestore databases are secured by a configuration file called [Security Rules](https://firebase.google.com/docs/firestore/security/get-started).
 
 Open the `firestore.rules` file, you should see the following:
 
@@ -662,25 +663,25 @@ So far this app has been entirely local, all of the data is contained in the Fir
 
 > aside positive
 >
-> All of the products used in this codelab are available on the free [Spark plan](https://firebase.google.com/pricing/).
+> All of the products used in this codelab are available on the [Spark plan](https://firebase.google.com/pricing/).
 
 ### Firebase Authentication
 
-In the Firebase consle go to the **Authentication** section and navigate to the [Sign-in Providers tab](https://console.firebase.google.com/project/_/authentication/providers).
+In the Firebase console go to the **Authentication** section and click **Get started**. Navigate to the **Sign-in method** tab and select the **Email/Password** option from **Native providers**.
 
-Enable the Email sign-in method:
+Enable the **Email/Password** sign-in method and click **Save**.
 
-<img src="img/334ef7f6ff4da4ce.png" alt="334ef7f6ff4da4ce.png"  width="624.00" />
+<img src="img/sign-in-providers.png" alt="sign-in-providers.png"  width="624.00" />
 
 
 ### Firestore
 
 #### Create database
 
-Navigate to the **Firestore** section of the console and click **Create Database**:
+Navigate to the **Firestore Database** section of the console and click **Create Database**:
 
-  1. When prompted about Security Rules choose to start in **Locked Mode**, we'll update those rules soon.
-  1. Choose the database location that you'd like to use for your app. Note that selection a database location is a _permanent_ decision and to change it you will have to create a new project. For more information on choosing a project location, see the [documentation](https://firebase.google.com/docs/projects/locations).
+1. When prompted about Security Rules choose to start in **Production Mode**, we'll update those rules soon.
+1. Choose the database location that you'd like to use for your app. Note that selecting a database location is a _permanent_ decision and to change it you will have to create a new project. For more information on choosing a project location, see the [documentation](https://firebase.google.com/docs/projects/locations).
 
 #### Deploy Rules
 
@@ -793,7 +794,7 @@ public class FirebaseUtil {
 
 If you would like to test your app with your real Firebase project you can either:
 
-  1. Build the app in release mode and run it on a device.
-  1. Temporarily change `sUseEmulators` to `false` and run the app again.
+1. Build the app in release mode and run it on a device.
+1. Temporarily change `sUseEmulators` to `false` and run the app again.
 
 Note that you may need to **Sign Out** of the app and sign in again in order to properly connect to production.
