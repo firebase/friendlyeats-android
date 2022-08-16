@@ -139,10 +139,10 @@ You now have a complete local development environment running on your machine! M
 
 ### Connect app to the Emulators
 
-Open the files `util/FirestoreInitializer.kt` and `util/AuthInitializer` in Android Studio.
+Open the files `util/FirestoreInitializer.kt` and `util/AuthInitializer.kt` in Android Studio.
 These files contain the logic to connect the Firebase SDKs to the local emulators running on your machine, upon application startup.
 
-On the `create()` method of the `FirestoreInitializer` file, examine this piece of code:
+On the `create()` method of the `FirestoreInitializer` class, examine this piece of code:
 
 ```kotlin
     // Use emulators only in debug builds
@@ -752,7 +752,7 @@ Note that index creation is not instantaneous, you can monitor the progress in t
 
 ### Configure the app
 
-In the `util/FirestoreInitializer.kt` and `util/AuthInitializer` files we configured the Firebase SDK to connect to the emulators when in debug mode:
+In the `util/FirestoreInitializer.kt` and `util/AuthInitializer.kt` files we configured the Firebase SDK to connect to the emulators when in debug mode:
 
 ```kotlin
     override fun create(context: Context): FirebaseFirestore {
