@@ -2,13 +2,13 @@ package com.google.firebase.example.fireeats
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
@@ -25,8 +25,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.example.fireeats.databinding.FragmentMainBinding
 import com.google.firebase.example.fireeats.adapter.RestaurantAdapter
 import com.google.firebase.example.fireeats.model.Restaurant
-import com.google.firebase.example.fireeats.util.RatingUtil
-import com.google.firebase.example.fireeats.util.RestaurantUtil
 import com.google.firebase.example.fireeats.viewmodel.MainActivityViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -72,11 +70,6 @@ class MainFragment : Fragment(),
 
         // Firestore
         firestore = Firebase.firestore
-
-        // Get ${LIMIT} restaurants
-        query = firestore.collection("restaurants")
-            .orderBy("avgRating", Query.Direction.DESCENDING)
-            .limit(LIMIT.toLong())
 
         // RecyclerView
         adapter = object : RestaurantAdapter(query, this@MainFragment) {
@@ -183,34 +176,7 @@ class MainFragment : Fragment(),
     }
 
     override fun onFilter(filters: Filters) {
-        // Construct query basic query
-        var query: Query = firestore.collection("restaurants")
-
-        // Category (equality filter)
-        if (filters.hasCategory()) {
-            query = query.whereEqualTo(Restaurant.FIELD_CATEGORY, filters.category)
-        }
-
-        // City (equality filter)
-        if (filters.hasCity()) {
-            query = query.whereEqualTo(Restaurant.FIELD_CITY, filters.city)
-        }
-
-        // Price (equality filter)
-        if (filters.hasPrice()) {
-            query = query.whereEqualTo(Restaurant.FIELD_PRICE, filters.price)
-        }
-
-        // Sort by (orderBy with direction)
-        if (filters.hasSortBy()) {
-            query = query.orderBy(filters.sortBy.toString(), filters.sortDirection)
-        }
-
-        // Limit items
-        query = query.limit(LIMIT.toLong())
-
-        // Update the query
-        adapter.setQuery(query)
+        // TODO(developer): Construct new query
 
         // Set header
         binding.textCurrentSearch.text = HtmlCompat.fromHtml(
@@ -239,32 +205,8 @@ class MainFragment : Fragment(),
     }
 
     private fun onAddItemsClicked() {
-        // Add a bunch of random restaurants
-        val batch = firestore.batch()
-        for (i in 0..9) {
-            val restRef = firestore.collection("restaurants").document()
-
-            // Create random restaurant / ratings
-            val randomRestaurant = RestaurantUtil.getRandom(requireContext())
-            val randomRatings = RatingUtil.getRandomList(randomRestaurant.numRatings)
-            randomRestaurant.avgRating = RatingUtil.getAverageRating(randomRatings)
-
-            // Add restaurant
-            batch.set(restRef, randomRestaurant)
-
-            // Add ratings to subcollection
-            for (rating in randomRatings) {
-                batch.set(restRef.collection("ratings").document(), rating)
-            }
-        }
-
-        batch.commit().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d(TAG, "Write batch succeeded.")
-            } else {
-                Log.w(TAG, "write batch failed.", task.exception)
-            }
-        }
+        // TODO(developer): Add random restaurants
+        showTodoToast()
     }
 
     private fun showSignInErrorDialog(@StringRes message: Int) {
@@ -276,6 +218,10 @@ class MainFragment : Fragment(),
             .setNegativeButton(R.string.option_exit) { _, _ -> requireActivity().finish() }.create()
 
         dialog.show()
+    }
+
+    private fun showTodoToast() {
+        Toast.makeText(context, "TODO: Implement", Toast.LENGTH_SHORT).show()
     }
 
     companion object {

@@ -139,34 +139,19 @@ You now have a complete local development environment running on your machine! M
 
 ### Connect app to the Emulators
 
-Open the file `FirebaseUtil.java` in Android Studio. This file contains the logic to connect the Firebase SDKs to the local emulators running on your machine.
+Open the files `util/FirestoreInitializer.kt` and `util/AuthInitializer` in Android Studio.
+These files contain the logic to connect the Firebase SDKs to the local emulators running on your machine, upon application startup.
 
-At the top of the file, examine this line:
+On the `create()` method of the `FirestoreInitializer` file, examine this piece of code:
 
-```java
-    /** Use emulators only in debug builds **/
-    private static final boolean sUseEmulators = BuildConfig.DEBUG;
+```kotlin
+    // Use emulators only in debug builds
+    if (BuildConfig.DEBUG) {
+        firestore.useEmulator(FIRESTORE_EMULATOR_HOST, FIRESTORE_EMULATOR_PORT)
+    }
 ```
 
 We are using `BuildConfig` to make sure we only connect to the emulators when our app is running in `debug` mode. When we compile the app in `release` mode this condition will be false.
-
-Now take a look at the `getFirestore()` method:
-
-```java
-    public static FirebaseFirestore getFirestore() {
-        if (FIRESTORE == null) {
-            FIRESTORE = FirebaseFirestore.getInstance();
-
-            // Connect to the Cloud Firestore emulator when appropriate. The host '10.0.2.2' is a
-            // special IP address to let the Android emulator connect to 'localhost'.
-            if (sUseEmulators) {
-                FIRESTORE.useEmulator("10.0.2.2", 8080);
-            }
-        }
-
-        return FIRESTORE;
-    }
-```
 
 We can see that it is using the `useEmulator(host, port)` method to connect the Firebase SDK to the local Firestore emulator. Throughout the app we will use `FirebaseUtil.getFirestore()` to access this instance of `FirebaseFirestore` so we are sure that we're always connecting to the Firestore emulator when running in `debug` mode.
 
@@ -197,21 +182,19 @@ Duration: 05:00
 
 In this section we will write some data to Firestore so that we can populate the currently empty home screen.
 
-The main model object in our app is a restaurant (see `model/Restaurant.java`).  Firestore data is split into documents, collections, and subcollections.  We will store each restaurant as a document in a top-level collection called `"restaurants"`.  To learn more about the Firestore data model, read about documents and collections in  [the documentation](https://firebase.google.com/docs/firestore/data-model).
+The main model object in our app is a restaurant (see `model/Restaurant.kt`).  Firestore data is split into documents, collections, and subcollections.  We will store each restaurant as a document in a top-level collection called `"restaurants"`.  To learn more about the Firestore data model, read about documents and collections in [the documentation](https://firebase.google.com/docs/firestore/data-model).
 
-For demonstration purposes, we will add functionality in the app to create ten random restaurants when we click the "Add Random Items" button in the overflow menu.  Open the file `MainActivity.java` and replace the content in the `onAddItemsClicked()` method with:
+For demonstration purposes, we will add functionality in the app to create ten random restaurants when we click the "Add Random Items" button in the overflow menu.  Open the file `MainFragment.kt` and replace the content in the `onAddItemsClicked()` method with:
 
-```java
-    private void onAddItemsClicked() {
-        // Get a reference to the restaurants collection
-        CollectionReference restaurants = mFirestore.collection("restaurants");
+```kotlin
+    private fun onAddItemsClicked() {
+        val restaurantsRef = firestore.collection("restaurants")
+        for (i in 0..9) {
+            // Create random restaurant / ratings
+            val randomRestaurant = RestaurantUtil.getRandom(requireContext())
 
-        for (int i = 0; i < 10; i++) {
-            // Get a random Restaurant POJO
-            Restaurant restaurant = RestaurantUtil.getRandom(this);
-
-            // Add a new document to the restaurants collection
-            restaurants.add(restaurant);
+            // Add restaurant
+            restaurantsRef.add(randomRestaurant)
         }
     }
 ```
@@ -219,7 +202,7 @@ For demonstration purposes, we will add functionality in the app to create ten r
 There are a few important things to note about the code above:
 
 * We started by getting a reference to the `"restaurants"` collection. Collections are created implicitly when documents are added, so there was no need to create the collection before writing data.
-* Documents can be created using POJOs (Plain Old Java Object), which we use to create each Restaurant doc.
+* Documents can be created using Kotlin data classes, which we use to create each Restaurant doc.
 * The `add()` method adds a document to a collection with an auto-generated ID, so we did not need to specify a unique ID for each Restaurant.
 
 Now run the app again and click the "Add Random Items" button in the overflow menu (at the top right corner) to invoke the code you just wrote:
@@ -239,128 +222,125 @@ Congratulations, you just wrote data to Firestore! In the next step we'll learn 
 Duration: 10:00
 
 
-In this step we will learn how to retrieve data from Firestore and display it in our app. The first step to reading data from Firestore is to create a `Query`. Open the file `MainActivity.java` and add the following code to the beginning of the `onCreate()` method:
+In this step we will learn how to retrieve data from Firestore and display it in our app. The first step to reading data from Firestore is to create a `Query`. Open the file `MainFragment.kt` and add the following code to the beginning of the `onViewCreated()` method:
 
-```java
-        mFirestore = FirebaseUtil.getFirestore();
+```kotlin
+        // Firestore
+        firestore = Firebase.firestore
 
         // Get the 50 highest rated restaurants
-        mQuery = mFirestore.collection("restaurants")
-                .orderBy("avgRating", Query.Direction.DESCENDING)
-                .limit(LIMIT);
+        query = firestore.collection("restaurants")
+            .orderBy("avgRating", Query.Direction.DESCENDING)
+            .limit(LIMIT.toLong())
 ```
 
 Now we want to listen to the query, so that we get all matching documents and are notified of future updates in real time.  Because our eventual goal is to bind this data to a `RecyclerView`, we need to create a `RecyclerView.Adapter` class to listen to the data.
 
 Open the `FirestoreAdapter` class, which has been partially implemented already.  First, let's make the adapter implement `EventListener` and define the `onEvent` function so that it can receive updates to a Firestore query:
 
-```java
-public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
-        extends RecyclerView.Adapter<VH>
-        implements EventListener<QuerySnapshot> { // Add this "implements"
-
+```kotlin
+abstract class FirestoreAdapter<VH : RecyclerView.ViewHolder>(private var query: Query?) :
+        RecyclerView.Adapter<VH>(),
+        EventListener<QuerySnapshot> { // Add this implements
+    
     // ...
 
     // Add this method
-    @Override
-    public void onEvent(QuerySnapshot documentSnapshots,
-                        FirebaseFirestoreException e) {
-
+    override fun onEvent(documentSnapshots: QuerySnapshot?, e: FirebaseFirestoreException?) {
+        
         // Handle errors
         if (e != null) {
-            Log.w(TAG, "onEvent:error", e);
-            return;
+            Log.w(TAG, "onEvent:error", e)
+            return
         }
 
         // Dispatch the event
-        for (DocumentChange change : documentSnapshots.getDocumentChanges()) {
-            // Snapshot of the changed document
-            DocumentSnapshot snapshot = change.getDocument();
-
-            switch (change.getType()) {
-                case ADDED:
+        for (change in documentSnapshots.documentChanges) {
+            // snapshot of the changed document
+            when (change.type) {
+                DocumentChange.Type.ADDED -> {
                     // TODO: handle document added
-                    break;
-                case MODIFIED:
-                    // TODO: handle document modified
-                    break;
-                case REMOVED:
+                }
+                DocumentChange.Type.MODIFIED -> {
+                    // TODO: handle document changed
+                }
+                DocumentChange.Type.REMOVED -> {
                     // TODO: handle document removed
-                    break;
+                }
             }
         }
 
-        onDataChanged();
+        onDataChanged()
     }
-
-  // ...
+    
+    // ...
 }
 ```
 
 On initial load the listener will receive one `ADDED` event for each new document.  As the result set of the query changes over time the listener will receive more events containing the changes.  Now let's finish implementing the listener.  First add three new methods: `onDocumentAdded`, `onDocumentModified`, and `onDocumentRemoved`:
 
-```java
-    protected void onDocumentAdded(DocumentChange change) {
-        mSnapshots.add(change.getNewIndex(), change.getDocument());
-        notifyItemInserted(change.getNewIndex());
+```kotlin
+    private fun onDocumentAdded(change: DocumentChange) {
+        snapshots.add(change.newIndex, change.document)
+        notifyItemInserted(change.newIndex)
     }
 
-    protected void onDocumentModified(DocumentChange change) {
-        if (change.getOldIndex() == change.getNewIndex()) {
+    private fun onDocumentModified(change: DocumentChange) {
+        if (change.oldIndex == change.newIndex) {
             // Item changed but remained in same position
-            mSnapshots.set(change.getOldIndex(), change.getDocument());
-            notifyItemChanged(change.getOldIndex());
+            snapshots[change.oldIndex] = change.document
+            notifyItemChanged(change.oldIndex)
         } else {
             // Item changed and changed position
-            mSnapshots.remove(change.getOldIndex());
-            mSnapshots.add(change.getNewIndex(), change.getDocument());
-            notifyItemMoved(change.getOldIndex(), change.getNewIndex());
+            snapshots.removeAt(change.oldIndex)
+            snapshots.add(change.newIndex, change.document)
+            notifyItemMoved(change.oldIndex, change.newIndex)
         }
     }
 
-    protected void onDocumentRemoved(DocumentChange change) {
-        mSnapshots.remove(change.getOldIndex());
-        notifyItemRemoved(change.getOldIndex());
+    private fun onDocumentRemoved(change: DocumentChange) {
+        snapshots.removeAt(change.oldIndex)
+        notifyItemRemoved(change.oldIndex)
     }
 ```
 
 Then call these new methods from `onEvent`:
 
-```java
-    @Override
-    public void onEvent(QuerySnapshot documentSnapshots,
-                        FirebaseFirestoreException e) {
+```kotlin
+    override fun onEvent(documentSnapshots: QuerySnapshot?, e: FirebaseFirestoreException?) {
 
-        // ...
+        // Handle errors
+        if (e != null) {
+            Log.w(TAG, "onEvent:error", e)
+            return
+        }
 
         // Dispatch the event
-        for (DocumentChange change : documentSnapshots.getDocumentChanges()) {
-            // Snapshot of the changed document
-            DocumentSnapshot snapshot = change.getDocument();
-
-            switch (change.getType()) {
-                case ADDED:
-                    onDocumentAdded(change); // Add this line
-                    break;
-                case MODIFIED:
-                    onDocumentModified(change); // Add this line
-                    break;
-                case REMOVED:
-                    onDocumentRemoved(change); // Add this line
-                    break;
+        for (change in documentSnapshots.documentChanges) {
+            // snapshot of the changed document
+            when (change.type) {
+                DocumentChange.Type.ADDED -> {
+                    onDocumentAdded(change) // Add this line
+                }
+                DocumentChange.Type.MODIFIED -> {
+                    onDocumentModified(change) // Add this line
+                }
+                DocumentChange.Type.REMOVED -> {
+                    onDocumentRemoved(change) // Add this line
+                }
             }
         }
 
-        onDataChanged();
+        onDataChanged()
     }
 ```
 
 Finally implement the `startListening()` method to attach the listener:
 
-```java
-    public void startListening() {
-        if (mQuery != null && mRegistration == null) {
-            mRegistration = mQuery.addSnapshotListener(this);
+```kotlin
+    fun startListening() {
+        if (query != null && registration == null) {
+            registration = query.addSnapshotListener(this)
         }
     }
 ```
@@ -386,47 +366,48 @@ Clicking white bar at the top of the app brings up a filters dialog.  In this se
 
 <img src="img/67898572a35672a5.png" alt="67898572a35672a5.png"  width="359.50" />
 
-Let's edit the `onFilter()` method of `MainActivity.java`.  This method accepts a `Filters` object which is a helper object we created to capture the output of the filters dialog.  We will change this method to construct a query from the filters:
+Let's edit the `onFilter()` method of `MainFragment.kt`.  This method accepts a `Filters` object which is a helper object we created to capture the output of the filters dialog.  We will change this method to construct a query from the filters:
 
-```java
-    @Override
-    public void onFilter(Filters filters) {
-        // Construct basic query
-        Query query = mFirestore.collection("restaurants");
+```kotlin
+    override fun onFilter(filters: Filters) {
+        // Construct query basic query
+        var query: Query = firestore.collection("restaurants")
 
         // Category (equality filter)
         if (filters.hasCategory()) {
-            query = query.whereEqualTo("category", filters.getCategory());
+            query = query.whereEqualTo(Restaurant.FIELD_CATEGORY, filters.category)
         }
 
         // City (equality filter)
         if (filters.hasCity()) {
-            query = query.whereEqualTo("city", filters.getCity());
+            query = query.whereEqualTo(Restaurant.FIELD_CITY, filters.city)
         }
 
         // Price (equality filter)
         if (filters.hasPrice()) {
-            query = query.whereEqualTo("price", filters.getPrice());
+            query = query.whereEqualTo(Restaurant.FIELD_PRICE, filters.price)
         }
 
         // Sort by (orderBy with direction)
         if (filters.hasSortBy()) {
-            query = query.orderBy(filters.getSortBy(), filters.getSortDirection());
+            query = query.orderBy(filters.sortBy.toString(), filters.sortDirection)
         }
 
         // Limit items
-        query = query.limit(LIMIT);
+        query = query.limit(LIMIT.toLong())
 
         // Update the query
-        mQuery = query;
-        mAdapter.setQuery(query);
+        adapter.setQuery(query)
 
         // Set header
-        mCurrentSearchView.setText(Html.fromHtml(filters.getSearchDescription(this)));
-        mCurrentSortByView.setText(filters.getOrderDescription(this));
+        binding.textCurrentSearch.text = HtmlCompat.fromHtml(
+            filters.getSearchDescription(requireContext()),
+            HtmlCompat.FROM_HTML_MODE_LEGACY
+        )
+        binding.textCurrentSortBy.text = filters.getOrderDescription(requireContext())
 
         // Save filters
-        mViewModel.setFilters(filters);
+        viewModel.filters = filters
     }
 ```
 
@@ -474,10 +455,10 @@ So far we have stored all restaurant data in a top-level collection called "rest
 
 To access a subcollection, call `.collection()` on the parent document:
 
-```java
-CollectionReference subRef = mFirestore.collection("restaurants")
+```kotlin
+val subRef = firestore.collection("restaurants")
         .document("abc123")
-        .collection("ratings");
+        .collection("ratings")
 ```
 
 You can access and query a subcollection just like with a top-level collection, there are no size limitations or performance changes.  You can read more about the Firestore data model  [here](https://firebase.google.com/docs/firestore/data-model).
@@ -492,44 +473,35 @@ To ensure that ratings are added properly, we will use a transaction to add rati
 * Add the rating to the subcollection
 * Update the restaurant's average rating and number of ratings
 
-Open `RestaurantDetailActivity.java` and implement the `addRating` function:
+Open `RestaurantDetailFragment.kt` and implement the `addRating` function:
 
-```java
-    private Task<Void> addRating(final DocumentReference restaurantRef,
-                                 final Rating rating) {
+```kotlin
+    private fun addRating(restaurantRef: DocumentReference, rating: Rating): Task<Void> {
         // Create reference for new rating, for use inside the transaction
-        final DocumentReference ratingRef = restaurantRef.collection("ratings")
-                .document();
+        val ratingRef = restaurantRef.collection("ratings").document()
 
         // In a transaction, add the new rating and update the aggregate totals
-        return mFirestore.runTransaction(new Transaction.Function<Void>() {
-            @Override
-            public Void apply(Transaction transaction)
-                    throws FirebaseFirestoreException {
+        return firestore.runTransaction { transaction ->
+            val restaurant = transaction.get(restaurantRef).toObject<Restaurant>()
+                ?: throw Exception("Restaurant not found at ${restaurantRef.path}")
 
-                Restaurant restaurant = transaction.get(restaurantRef)
-                        .toObject(Restaurant.class);
+            // Compute new number of ratings
+            val newNumRatings = restaurant.numRatings + 1
 
-                // Compute new number of ratings
-                int newNumRatings = restaurant.getNumRatings() + 1;
+            // Compute new average rating
+            val oldRatingTotal = restaurant.avgRating * restaurant.numRatings
+            val newAvgRating = (oldRatingTotal + rating.rating) / newNumRatings
 
-                // Compute new average rating
-                double oldRatingTotal = restaurant.getAvgRating() *
-                        restaurant.getNumRatings();
-                double newAvgRating = (oldRatingTotal + rating.getRating()) /
-                        newNumRatings;
+            // Set new restaurant info
+            restaurant.numRatings = newNumRatings
+            restaurant.avgRating = newAvgRating
 
-                // Set new restaurant info
-                restaurant.setNumRatings(newNumRatings);
-                restaurant.setAvgRating(newAvgRating);
+            // Commit to Firestore
+            transaction.set(restaurantRef, restaurant)
+            transaction.set(ratingRef, rating)
 
-                // Commit to Firestore
-                transaction.set(restaurantRef, restaurant);
-                transaction.set(ratingRef, rating);
-
-                return null;
-            }
-        });
+            null
+        }
     }
 ```
 
@@ -543,7 +515,7 @@ Hitting **Submit** will kick off the transaction. When the transaction completes
 
 <img src="img/f9e670f40bd615b0.png" alt="f9e670f40bd615b0.png"  width="203.42" />
 
-Congrats!  You now have a social, local, mobile restaurant review app built on Cloud Firestore.  I hear those are very popular these days.
+Congrats! You now have a social, local, mobile restaurant review app built on Cloud Firestore.  I hear those are very popular these days.
 
 
 ## Secure your data
@@ -780,21 +752,22 @@ Note that index creation is not instantaneous, you can monitor the progress in t
 
 ### Configure the app
 
-In the `FirebaseUtil` class we configured the Firebase SDK to connect to the emulators when in debug mode:
+In the `util/FirestoreInitializer.kt` and `util/AuthInitializer` files we configured the Firebase SDK to connect to the emulators when in debug mode:
 
-```java
-public class FirebaseUtil {
-
-    /** Use emulators only in debug builds **/
-    private static final boolean sUseEmulators = BuildConfig.DEBUG;
-
-    // ...
-}
+```kotlin
+    override fun create(context: Context): FirebaseFirestore {
+        val firestore = Firebase.firestore
+        // Use emulators only in debug builds
+        if (BuildConfig.DEBUG) {
+            firestore.useEmulator(FIRESTORE_EMULATOR_HOST, FIRESTORE_EMULATOR_PORT)
+        }
+        return firestore
+    }
 ```
 
 If you would like to test your app with your real Firebase project you can either:
 
 1. Build the app in release mode and run it on a device.
-1. Temporarily change `sUseEmulators` to `false` and run the app again.
+1. Temporarily replace `BuildConfig.DEBUG` with `false` and run the app again.
 
 Note that you may need to **Sign Out** of the app and sign in again in order to properly connect to production.

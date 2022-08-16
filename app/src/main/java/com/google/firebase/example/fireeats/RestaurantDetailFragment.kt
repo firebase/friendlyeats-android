@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.example.fireeats.databinding.FragmentRestaurantDetailBinding
 import com.google.firebase.example.fireeats.adapter.RatingAdapter
@@ -162,33 +163,8 @@ class RestaurantDetailFragment : Fragment(),
     }
 
     private fun addRating(restaurantRef: DocumentReference, rating: Rating): Task<Void> {
-        // Create reference for new rating, for use inside the transaction
-        val ratingRef = restaurantRef.collection("ratings").document()
-
-        // In a transaction, add the new rating and update the aggregate totals
-        return firestore.runTransaction { transaction ->
-            val restaurant = transaction.get(restaurantRef).toObject<Restaurant>()
-            if (restaurant == null) {
-                throw Exception("Resraurant not found at ${restaurantRef.path}")
-            }
-
-            // Compute new number of ratings
-            val newNumRatings = restaurant.numRatings + 1
-
-            // Compute new average rating
-            val oldRatingTotal = restaurant.avgRating * restaurant.numRatings
-            val newAvgRating = (oldRatingTotal + rating.rating) / newNumRatings
-
-            // Set new restaurant info
-            restaurant.numRatings = newNumRatings
-            restaurant.avgRating = newAvgRating
-
-            // Commit to Firestore
-            transaction.set(restaurantRef, restaurant)
-            transaction.set(ratingRef, rating)
-
-            null
-        }
+        // TODO(developer): Implement
+        return Tasks.forException(Exception("not yet implemented"))
     }
 
     private fun hideKeyboard() {

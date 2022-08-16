@@ -15,6 +15,7 @@ class AuthInitializer : Initializer<FirebaseAuth> {
 
     override fun create(context: Context): FirebaseAuth {
         val firebaseAuth = Firebase.auth
+        // Use emulators only in debug builds
         if (BuildConfig.DEBUG) {
             firebaseAuth.useEmulator(AUTH_EMULATOR_HOST, AUTH_EMULATOR_PORT)
         }
