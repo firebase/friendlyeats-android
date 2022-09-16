@@ -25,7 +25,7 @@ android {
 
 dependencies {
     // Firestore
-    implementation 'com.google.firebase:firebase-firestore:24.3.0'
+    implementation 'com.google.firebase:firebase-firestore:24.3.1'
 
     // Other Firebase/Play services deps
     implementation 'com.google.firebase:firebase-auth:21.0.8'
