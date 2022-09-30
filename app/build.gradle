@@ -40,7 +40,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
 
     // FirebaseUI (for authentication)
-    implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
 
     // Support Libs
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -61,5 +61,5 @@ dependencies {
 
     // Third-party libraries
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
-    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    implementation 'com.github.bumptech.glide:glide:4.14.1'
 }
