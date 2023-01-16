@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace 'com.google.firebase.example.fireeats'
     compileSdkVersion 33
     defaultConfig {
         applicationId 'com.google.firebase.example.fireeats'
@@ -25,6 +26,11 @@ android {
     }
     buildFeatures {
         viewBinding = true
+    }
+    lintOptions {
+        // TODO(thatfiredev): Remove this once
+        //  https://github.com/bumptech/glide/issues/4940 is fixed
+        disable 'NotificationPermission'
     }
 }
 
