@@ -27,10 +27,17 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    lintOptions {
+    lint {
         // TODO(thatfiredev): Remove this once
         //  https://github.com/bumptech/glide/issues/4940 is fixed
         disable 'NotificationPermission'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
     }
 }
 
