@@ -19,14 +19,14 @@ allprojects {
 }
 
 fun isNonStable(candidate: ModuleComponentIdentifier): Boolean {
-    return listOf("alpha", "beta", "rc", "SNAPSHOT").any { keyword ->
-        candidate.version.contains(keyword)
+    return listOf("alpha", "beta", "rc", "snapshot").any { keyword ->
+        keyword in candidate.version.lowercase()
     }
 }
 
 fun isBlackListed(candidate: ModuleComponentIdentifier): Boolean {
     return listOf("androidx.browser:browser").any { keyword ->
-        candidate.toString().contains(keyword)
+        keyword in candidate.toString().lowercase()
     }
 }
 
