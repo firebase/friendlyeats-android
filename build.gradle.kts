@@ -24,7 +24,7 @@ fun isNonStable(candidate: ModuleComponentIdentifier): Boolean {
     }
 }
 
-fun isBlackListed(candidate: ModuleComponentIdentifier): Boolean {
+fun isBlockListed(candidate: ModuleComponentIdentifier): Boolean {
     return listOf("androidx.browser:browser").any { keyword ->
         keyword in candidate.toString().lowercase()
     }
@@ -32,7 +32,7 @@ fun isBlackListed(candidate: ModuleComponentIdentifier): Boolean {
 
 tasks.withType<DependencyUpdatesTask> {
     rejectVersionIf {
-        isNonStable(candidate) || isBlackListed(candidate)
+        isNonStable(candidate) || isBlockListed(candidate)
     }
 }
 
