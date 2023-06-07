@@ -10,7 +10,7 @@ android {
     compileSdk = 33
     defaultConfig {
         applicationId = "com.google.firebase.example.fireeats"
-        minSdk = 19
+        minSdk = 30
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
