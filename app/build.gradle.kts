@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace = "com.google.firebase.example.fireeats"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.google.firebase.example.fireeats"
         minSdk = 19
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
