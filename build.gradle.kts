@@ -6,8 +6,8 @@ plugins {
     id("com.android.library") version "8.1.1" apply false
     id("org.jetbrains.kotlin.android") version "1.9.10" apply false
     id("com.google.gms.google-services") version "4.3.15" apply false
-    id("androidx.navigation.safeargs") version "2.7.1" apply false
-    id("com.github.ben-manes.versions") version "0.47.0" apply true
+    id("androidx.navigation.safeargs") version "2.7.2" apply false
+    id("com.github.ben-manes.versions") version "0.48.0" apply true
 }
 
 allprojects {
