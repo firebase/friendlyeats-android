@@ -43,7 +43,7 @@ android {
 
 dependencies {
     // Import the Firebase BoM (see: https://firebase.google.com/docs/android/learn-more#bom)
-    implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
 
     // Firestore
     implementation("com.google.firebase:firebase-firestore-ktx")
