@@ -50,7 +50,7 @@ dependencies {
 
     // Other Firebase/Play services deps
     implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.android.gms:play-services-auth:21.1.1")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
 
     // FirebaseUI (for authentication)
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
