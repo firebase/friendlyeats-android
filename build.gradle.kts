@@ -25,7 +25,10 @@ fun isNonStable(candidate: ModuleComponentIdentifier): Boolean {
 }
 
 fun isBlockListed(candidate: ModuleComponentIdentifier): Boolean {
-    return listOf("androidx.browser:browser").any { keyword ->
+    return listOf(
+        "androidx.browser:browser",
+        "com.google.android.gms:play-services-auth"
+    ).any { keyword ->
         keyword in candidate.toString().lowercase()
     }
 }
