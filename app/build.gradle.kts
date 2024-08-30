@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace = "com.google.firebase.example.fireeats"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "com.google.firebase.example.fireeats"
         minSdk = 23
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -43,7 +43,7 @@ android {
 
 dependencies {
     // Import the Firebase BoM (see: https://firebase.google.com/docs/android/learn-more#bom)
-    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
 
     // Firestore
     implementation("com.google.firebase:firebase-firestore-ktx")
@@ -72,7 +72,7 @@ dependencies {
     // Android architecture components
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.8.1")
+    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.8.4")
 
     // Third-party libraries
     implementation("me.zhanghai.android.materialratingbar:library:1.4.0")
