@@ -65,14 +65,14 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.0")
     implementation("androidx.startup:startup-runtime:1.1.1")
 
     // Android architecture components
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.8.4")
+    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.8.5")
 
     // Third-party libraries
     implementation("me.zhanghai.android.materialratingbar:library:1.4.0")
