@@ -70,9 +70,9 @@ dependencies {
     implementation("androidx.startup:startup-runtime:1.2.0")
 
     // Android architecture components
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.8.6")
+    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.8.7")
 
     // Third-party libraries
     implementation("me.zhanghai.android.materialratingbar:library:1.4.0")
