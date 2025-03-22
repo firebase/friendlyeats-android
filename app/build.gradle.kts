@@ -7,11 +7,11 @@ plugins {
 
 android {
     namespace = "com.google.firebase.example.fireeats"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         applicationId = "com.google.firebase.example.fireeats"
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -43,7 +43,7 @@ android {
 
 dependencies {
     // Import the Firebase BoM (see: https://firebase.google.com/docs/android/learn-more#bom)
-    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
 
     // Firestore
     implementation("com.google.firebase:firebase-firestore-ktx")
@@ -55,7 +55,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     // FirebaseUI (for authentication)
-    implementation("com.firebaseui:firebase-ui-auth:8.0.2")
+    implementation("com.firebaseui:firebase-ui-auth:9.0.0")
 
     // Support Libs
     implementation("androidx.appcompat:appcompat:1.7.0")
