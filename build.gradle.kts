@@ -4,7 +4,7 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 plugins {
     id("com.android.application") version "8.10.0" apply false
     id("com.android.library") version "8.10.0" apply false
-    id("org.jetbrains.kotlin.android") version "2.1.20" apply false
+    id("org.jetbrains.kotlin.android") version "2.1.21" apply false
     id("com.google.gms.google-services") version "4.4.2" apply false
     id("androidx.navigation.safeargs") version "2.9.0" apply false
     id("com.github.ben-manes.versions") version "0.52.0" apply true
