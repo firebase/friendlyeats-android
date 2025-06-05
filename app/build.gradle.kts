@@ -58,7 +58,7 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-auth:9.0.0")
 
     // Support Libs
-    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("androidx.vectordrawable:vectordrawable-animated:1.2.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.browser:browser:1.5.0")
@@ -70,9 +70,9 @@ dependencies {
     implementation("androidx.startup:startup-runtime:1.2.0")
 
     // Android architecture components
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.9.1")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.9.0")
+    annotationProcessor("androidx.lifecycle:lifecycle-compiler:2.9.1")
 
     // Third-party libraries
     implementation("me.zhanghai.android.materialratingbar:library:1.4.0")
