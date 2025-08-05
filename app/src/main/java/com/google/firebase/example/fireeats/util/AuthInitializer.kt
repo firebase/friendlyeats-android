@@ -3,9 +3,9 @@ package com.google.firebase.example.fireeats.util
 import android.content.Context
 import androidx.startup.Initializer
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.auth
 import com.google.firebase.example.fireeats.BuildConfig
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
 
 class AuthInitializer : Initializer<FirebaseAuth> {
     // The host '10.0.2.2' is a special IP address to let the

@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.startup.Initializer
 import com.google.firebase.example.fireeats.BuildConfig
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.firestore
+import com.google.firebase.Firebase
 
 class FirestoreInitializer : Initializer<FirebaseFirestore> {
 

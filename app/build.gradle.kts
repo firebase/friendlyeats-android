@@ -46,10 +46,10 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
 
     // Firestore
-    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-firestore")
 
     // Other Firebase/Play services deps
-    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-auth")
 
     // Pinned to 20.7.0 as a workaround for issue https://github.com/firebase/quickstart-android/issues/1647
     implementation("com.google.android.gms:play-services-auth:20.7.0")
