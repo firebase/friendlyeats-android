@@ -65,8 +65,8 @@ dependencies {
     implementation("com.google.android.material:material:1.13.0")
     implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.9.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.9.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.9.4")
+    implementation("androidx.navigation:navigation-ui-ktx:2.9.4")
     implementation("androidx.startup:startup-runtime:1.2.0")
 
     // Android architecture components
@@ -76,5 +76,5 @@ dependencies {
 
     // Third-party libraries
     implementation("me.zhanghai.android.materialratingbar:library:1.4.0")
-    implementation("com.github.bumptech.glide:glide:5.0.4")
+    implementation("com.github.bumptech.glide:glide:5.0.5")
 }
