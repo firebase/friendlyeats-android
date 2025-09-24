@@ -7,7 +7,7 @@ plugins {
     id("org.jetbrains.kotlin.android") version "2.2.20" apply false
     id("com.google.gms.google-services") version "4.4.3" apply false
     id("androidx.navigation.safeargs") version "2.9.4" apply false
-    id("com.github.ben-manes.versions") version "0.52.0" apply true
+    id("com.github.ben-manes.versions") version "0.53.0" apply true
 }
 
 allprojects {
