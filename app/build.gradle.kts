@@ -43,7 +43,7 @@ android {
 
 dependencies {
     // Import the Firebase BoM (see: https://firebase.google.com/docs/android/learn-more#bom)
-    implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.5.0"))
 
     // Firestore
     implementation("com.google.firebase:firebase-firestore")
@@ -55,7 +55,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     // FirebaseUI (for authentication)
-    implementation("com.firebaseui:firebase-ui-auth:9.0.0")
+    implementation("com.firebaseui:firebase-ui-auth:9.1.1")
 
     // Support Libs
     implementation("androidx.appcompat:appcompat:1.7.1")
