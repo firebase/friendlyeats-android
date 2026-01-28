@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs")
 }
@@ -21,11 +20,12 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     lint {
         // TODO(thatfiredev): Remove this once
@@ -35,9 +35,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
     }
 }
 
@@ -63,7 +60,6 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.browser:browser:1.5.0")
     implementation("com.google.android.material:material:1.13.0")
-    implementation("androidx.multidex:multidex:2.0.1")
     implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.9.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.9.6")
