@@ -48,7 +48,6 @@ dependencies {
     // Other Firebase/Play services deps
     implementation("com.google.firebase:firebase-auth")
 
-    // Pinned to 20.7.0 as a workaround for issue https://github.com/firebase/quickstart-android/issues/1647
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     // FirebaseUI (for authentication)
