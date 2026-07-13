@@ -40,7 +40,7 @@ android {
 
 dependencies {
     // Import the Firebase BoM (see: https://firebase.google.com/docs/android/learn-more#bom)
-    implementation(platform("com.google.firebase:firebase-bom:34.15.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.16.0"))
 
     // Firestore
     implementation("com.google.firebase:firebase-firestore")
@@ -71,5 +71,5 @@ dependencies {
 
     // Third-party libraries
     implementation("me.zhanghai.android.materialratingbar:library:1.4.0")
-    implementation("com.github.bumptech.glide:glide:5.0.7")
+    implementation("com.github.bumptech.glide:glide:5.0.9")
 }
