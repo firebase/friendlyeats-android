@@ -6,7 +6,7 @@ plugins {
     id("com.android.library") version "9.3.1" apply false
     id("com.google.gms.google-services") version "4.5.0" apply false
     id("androidx.navigation.safeargs") version "2.9.8" apply false
-    id("com.github.ben-manes.versions") version "0.54.0" apply true
+    id("com.github.ben-manes.versions") version "0.56.0" apply true
 }
 
 allprojects {
