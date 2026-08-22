@@ -40,7 +40,7 @@ android {
 
 dependencies {
     // Import the Firebase BoM (see: https://firebase.google.com/docs/android/learn-more#bom)
-    implementation(platform("com.google.firebase:firebase-bom:34.17.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.18.0"))
 
     // Firestore
     implementation("com.google.firebase:firebase-firestore")
@@ -54,7 +54,7 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-auth:9.1.1")
 
     // Support Libs
-    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.appcompat:appcompat:1.8.0")
     implementation("androidx.vectordrawable:vectordrawable-animated:1.2.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.browser:browser:1.5.0")
