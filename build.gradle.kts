@@ -25,7 +25,9 @@ fun isNonStable(candidate: ModuleComponentIdentifier): Boolean {
 
 fun isBlockListed(candidate: ModuleComponentIdentifier): Boolean {
     return listOf(
-        "androidx.browser:browser"
+        "androidx.browser:browser",
+        // We can't bump to 10.x yet as we don't use Jetpack Compose in this app
+        "com.firebaseui:firebase-ui-auth"
     ).any { keyword ->
         keyword in candidate.toString().lowercase()
     }
